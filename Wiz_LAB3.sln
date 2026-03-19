@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.14.36310.24 d17.14
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wiz_LAB3", "Wiz_LAB3\Wiz_LAB3.csproj", "{00974A19-8E10-4456-859F-B1B9843E8325}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{00974A19-8E10-4456-859F-B1B9843E8325}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{00974A19-8E10-4456-859F-B1B9843E8325}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{00974A19-8E10-4456-859F-B1B9843E8325}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{00974A19-8E10-4456-859F-B1B9843E8325}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {47F8FD3B-FEC1-43DD-9E9E-14F78784E974}
+	EndGlobalSection
+EndGlobal
