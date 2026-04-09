@@ -55,7 +55,7 @@ namespace Wiz_LAB3
             btnWczytaj = new Button { Text = "odczyt z .csv", Location = new Point(140, 360), Size = new Size(110, 35), Anchor = AnchorStyles.Bottom | AnchorStyles.Left };
 
             btnZapiszXML = new Button { Text = "Zapis do XML", Location = new Point(260, 360), Size = new Size(110, 35), Anchor = AnchorStyles.Bottom | AnchorStyles.Left };
-            btnZapiszJSON = new Button { Text = "Zapis do JSON", Location = new Point(380, 360), Size = new Size(110, 35), Anchor = AnchorStyles.Bottom | AnchorStyles.Left };
+            btnZapiszJSON = new Button { Text = "Zapis do JSON", Location = new Point(380, 360), Size = new Size(130, 35), Anchor = AnchorStyles.Bottom | AnchorStyles.Left };
 
             this.Controls.AddRange(new Control[] { dataGridView1, btnDodaj, btnUsun, btnZapisz, btnWczytaj, btnZapiszXML, btnZapiszJSON });
 
