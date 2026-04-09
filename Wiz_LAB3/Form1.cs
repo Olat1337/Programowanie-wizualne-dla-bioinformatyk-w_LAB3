@@ -70,8 +70,7 @@ namespace Wiz_LAB3
             btnDodaj.Click += BtnDodaj_Click;
             btnUsun.Click += BtnUsun_Click;
             btnZapisz.Click += BtnZapisz_Click;
-            btnWczytaj.Click += BtnWczytaj_Click;
-            btnZapiszXML.Click += BtnZapiszXML_Click;
+            btnWczytaj.Click += BtnWczytaj_Click;        
         }
 
         private List<Osoba> PobierzDaneZTabeli()
@@ -91,23 +90,22 @@ namespace Wiz_LAB3
             return listaOsob;
         }
 
-        private void BtnZapiszXML_Click(object sender, EventArgs e)
+        private void BtnZapiszJSON_Click(object sender, EventArgs e)
         {
-            using (SaveFileDialog saveFileDialog = new SaveFileDialog() { Filter = "Pliki XML (*.xml)|*.xml", Title = "Zapisz jako XML" })
+            using (SaveFileDialog saveFileDialog = new SaveFileDialog() { Filter = "Pliki JSON (*.json)|*.json", Title = "Zapisz jako JSON" })
             {
                 if (saveFileDialog.ShowDialog() == DialogResult.OK)
                 {
                     List<Osoba> dane = PobierzDaneZTabeli();
-                    XmlSerializer serializer = new XmlSerializer(typeof(List<Osoba>));
-                    
-                    using (TextWriter writer = new StreamWriter(saveFileDialog.FileName, false, Encoding.UTF8))
-                    {
-                        serializer.Serialize(writer, dane);
-                    }
-                    MessageBox.Show("Dane zserializowano pomyślnie do pliku XML.", "Informacja", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                    var options = new JsonSerializerOptions { WriteIndented = true };
+                    string jsonString = JsonSerializer.Serialize(dane, options);
+
+                    File.WriteAllText(saveFileDialog.FileName, jsonString, Encoding.UTF8);
+                    MessageBox.Show("Dane zserializowano pomyślnie do pliku JSON.", "Informacja", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
             }
-          }
+        }
 
         private void BtnDodaj_Click(object sender, EventArgs e)
         {
