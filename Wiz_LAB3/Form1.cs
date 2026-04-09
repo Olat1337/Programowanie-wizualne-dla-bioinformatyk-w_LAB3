@@ -53,8 +53,8 @@ namespace Wiz_LAB3
             
             btnZapisz = new Button { Text = "Zapis do .csv", Location = new Point(20, 360), Size = new Size(110, 35), Anchor = AnchorStyles.Bottom | AnchorStyles.Left };
             btnWczytaj = new Button { Text = "odczyt z .csv", Location = new Point(140, 360), Size = new Size(110, 35), Anchor = AnchorStyles.Bottom | AnchorStyles.Left };
-            
-            btnZapiszXML = new Button { Text = "Zapis do XML", Location = new Point(260, 360), Size = new Size(110, 35), Anchor = AnchorStyles.Bottom | AnchorStyles.Left };
+
+            btnZapiszJSON = new Button { Text = "Zapis do JSON", Location = new Point(380, 360), Size = new Size(110, 35), Anchor = AnchorStyles.Bottom | AnchorStyles.Left };
             
             this.Controls.AddRange(new Control[] { dataGridView1, btnDodaj, btnUsun, btnZapisz, btnWczytaj, btnZapiszXML, btnZapiszJSON });
 
@@ -71,7 +71,7 @@ namespace Wiz_LAB3
             btnUsun.Click += BtnUsun_Click;
             btnZapisz.Click += BtnZapisz_Click;
             btnWczytaj.Click += BtnWczytaj_Click;
-            btnZapiszXML.Click += BtnZapiszXML_Click;
+            btnZapiszJSON.Click += BtnZapiszJSON_Click;
         }
 
         private List<Osoba> PobierzDaneZTabeli()
@@ -91,23 +91,22 @@ namespace Wiz_LAB3
             return listaOsob;
         }
 
-        private void BtnZapiszXML_Click(object sender, EventArgs e)
+        private void BtnZapiszJSON_Click(object sender, EventArgs e)
         {
-            using (SaveFileDialog saveFileDialog = new SaveFileDialog() { Filter = "Pliki XML (*.xml)|*.xml", Title = "Zapisz jako XML" })
+            using (SaveFileDialog saveFileDialog = new SaveFileDialog() { Filter = "Pliki JSON (*.json)|*.json", Title = "Zapisz jako JSON" })
             {
                 if (saveFileDialog.ShowDialog() == DialogResult.OK)
                 {
                     List<Osoba> dane = PobierzDaneZTabeli();
-                    XmlSerializer serializer = new XmlSerializer(typeof(List<Osoba>));
-                    
-                    using (TextWriter writer = new StreamWriter(saveFileDialog.FileName, false, Encoding.UTF8))
-                    {
-                        serializer.Serialize(writer, dane);
-                    }
-                    MessageBox.Show("Dane zserializowano pomyślnie do pliku XML.", "Informacja", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                    var options = new JsonSerializerOptions { WriteIndented = true };
+                    string jsonString = JsonSerializer.Serialize(dane, options);
+
+                    File.WriteAllText(saveFileDialog.FileName, jsonString, Encoding.UTF8);
+                    MessageBox.Show("Dane zserializowano pomyślnie do pliku JSON.", "Informacja", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
             }
-          }
+        }
 
         private void BtnDodaj_Click(object sender, EventArgs e)
         {
