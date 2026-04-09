@@ -70,7 +70,8 @@ namespace Wiz_LAB3
             btnDodaj.Click += BtnDodaj_Click;
             btnUsun.Click += BtnUsun_Click;
             btnZapisz.Click += BtnZapisz_Click;
-            btnWczytaj.Click += BtnWczytaj_Click;        
+            btnWczytaj.Click += BtnWczytaj_Click;
+            btnZapiszJSON.Click += BtnZapiszJSON_Click;
         }
 
         private List<Osoba> PobierzDaneZTabeli()
