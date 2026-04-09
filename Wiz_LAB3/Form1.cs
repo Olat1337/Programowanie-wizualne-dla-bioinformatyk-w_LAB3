@@ -5,13 +5,26 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using System.Collections.Generic;
+using System.Xml.Serialization;
+using System.Text.Json;
 
 namespace Wiz_LAB3
 {
+    [Serializable]
+    public class Osoba
+    {
+        public int ID { get; set; }
+        public string Imie { get; set; }
+        public string Nazwisko { get; set; }
+        public int Wiek { get; set; }
+        public string Stanowisko { get; set; }
+    }
+
     public partial class Form1 : Form
     {
         private DataGridView dataGridView1;
-        private Button btnDodaj, btnUsun, btnZapisz, btnWczytaj;
+        private Button btnDodaj, btnUsun, btnZapisz, btnWczytaj, btnZapiszXML, btnZapiszJSON;
         private DataTable dataTable;
         private int currentId = 1;
 
@@ -37,10 +50,13 @@ namespace Wiz_LAB3
 
             btnDodaj = new Button { Text = "Dodaj", Location = new Point(640, 20), Size = new Size(120, 35), Anchor = AnchorStyles.Top | AnchorStyles.Right };
             btnUsun = new Button { Text = "Usuń", Location = new Point(640, 65), Size = new Size(120, 35), Anchor = AnchorStyles.Top | AnchorStyles.Right };
-            btnZapisz = new Button { Text = "Zapis do .csv", Location = new Point(20, 360), Size = new Size(130, 35), Anchor = AnchorStyles.Bottom | AnchorStyles.Left };
-            btnWczytaj = new Button { Text = "odczyt z .csv", Location = new Point(170, 360), Size = new Size(130, 35), Anchor = AnchorStyles.Bottom | AnchorStyles.Left };
-
-            this.Controls.AddRange(new Control[] { dataGridView1, btnDodaj, btnUsun, btnZapisz, btnWczytaj });
+            
+            btnZapisz = new Button { Text = "Zapis do .csv", Location = new Point(20, 360), Size = new Size(110, 35), Anchor = AnchorStyles.Bottom | AnchorStyles.Left };
+            btnWczytaj = new Button { Text = "odczyt z .csv", Location = new Point(140, 360), Size = new Size(110, 35), Anchor = AnchorStyles.Bottom | AnchorStyles.Left };
+            
+            btnZapiszXML = new Button { Text = "Zapis do XML", Location = new Point(260, 360), Size = new Size(110, 35), Anchor = AnchorStyles.Bottom | AnchorStyles.Left };
+            
+            this.Controls.AddRange(new Control[] { dataGridView1, btnDodaj, btnUsun, btnZapisz, btnWczytaj, btnZapiszXML, btnZapiszJSON });
 
             dataTable = new DataTable();
             dataTable.Columns.Add("ID", typeof(int));
@@ -55,7 +71,43 @@ namespace Wiz_LAB3
             btnUsun.Click += BtnUsun_Click;
             btnZapisz.Click += BtnZapisz_Click;
             btnWczytaj.Click += BtnWczytaj_Click;
+            btnZapiszXML.Click += BtnZapiszXML_Click;
         }
+
+        private List<Osoba> PobierzDaneZTabeli()
+        {
+            var listaOsob = new List<Osoba>();
+            foreach (DataRow row in dataTable.Rows)
+            {
+                listaOsob.Add(new Osoba
+                {
+                    ID = Convert.ToInt32(row["ID"]),
+                    Imie = row["Imię"].ToString(),
+                    Nazwisko = row["Nazwisko"].ToString(),
+                    Wiek = Convert.ToInt32(row["Wiek"]),
+                    Stanowisko = row["Stanowisko"].ToString()
+                });
+            }
+            return listaOsob;
+        }
+
+        private void BtnZapiszXML_Click(object sender, EventArgs e)
+        {
+            using (SaveFileDialog saveFileDialog = new SaveFileDialog() { Filter = "Pliki XML (*.xml)|*.xml", Title = "Zapisz jako XML" })
+            {
+                if (saveFileDialog.ShowDialog() == DialogResult.OK)
+                {
+                    List<Osoba> dane = PobierzDaneZTabeli();
+                    XmlSerializer serializer = new XmlSerializer(typeof(List<Osoba>));
+                    
+                    using (TextWriter writer = new StreamWriter(saveFileDialog.FileName, false, Encoding.UTF8))
+                    {
+                        serializer.Serialize(writer, dane);
+                    }
+                    MessageBox.Show("Dane zserializowano pomyślnie do pliku XML.", "Informacja", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+            }
+          }
 
         private void BtnDodaj_Click(object sender, EventArgs e)
         {
@@ -124,7 +176,6 @@ namespace Wiz_LAB3
 
         private void Form1_Load(object sender, EventArgs e)
         {
-
         }
     }
 
